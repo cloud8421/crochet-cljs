@@ -1,9 +1,24 @@
 (ns crochet.core
-  (:require [clojure.browser.repl :as repl]))
-
-;; (defonce conn
-;;   (repl/connect "http://localhost:9000/repl"))
+  (:require [reagent.core :as reagent]
+            [secretary.core :as sec :refer-macros [defroute]]
+            [crochet.routing :refer [init-routing!]]
+            [crochet.components.header :refer [header-component]]))
 
 (enable-console-print!)
 
-(println "Hello world!")
+;; (defonce conn
+;;   (clojure.browser.repl/connect "http://localhost:9000/repl"))
+
+(defn get-container []
+  (. js/document (getElementById "app")))
+
+(defroute "/" []
+  (println "all projects"))
+
+(defroute "/new-project" []
+  (println "new project"))
+
+(init-routing!)
+
+(reagent/render-component [header-component]
+                          (get-container))
