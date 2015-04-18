@@ -1,5 +1,7 @@
-@import 'bourbon';
+@import './bourbon/bourbon';
 @import './base/base';
-@import 'neat/neat';
+@import './neat/neat';
 
-@import 'components/header';
+@import './components/header';
+
+h1 { color: red };
