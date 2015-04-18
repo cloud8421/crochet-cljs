@@ -1,24 +1,31 @@
 (ns crochet.core
   (:require [reagent.core :as reagent]
             [secretary.core :as sec :refer-macros [defroute]]
+            [crochet.app-state :refer [state]]
+            [crochet.transport :refer [fetch-projects]]
             [crochet.routing :refer [init-routing!]]
-            [crochet.components.header :refer [header-component]]))
+            [crochet.components.header :refer [header-component]]
+            [crochet.components.projects :refer [projects-component add-new-project-component]]))
 
 (enable-console-print!)
 
-;; (defonce conn
-;;   (clojure.browser.repl/connect "http://localhost:9000/repl"))
+(defn get-main-container []
+  (. js/document (getElementById "main")))
 
-(defn get-container []
-  (. js/document (getElementById "app")))
+(defn get-nav-container []
+  (. js/document (getElementById "navigation")))
 
 (defroute "/" []
-  (println "all projects"))
+  (reagent/render-component [projects-component]
+                            (get-main-container)))
 
 (defroute "/new-project" []
-  (println "new project"))
+  (reagent/render-component [add-new-project-component]
+                            (get-main-container)))
 
 (init-routing!)
 
 (reagent/render-component [header-component]
-                          (get-container))
+                          (get-nav-container))
+
+(fetch-projects 12345)
