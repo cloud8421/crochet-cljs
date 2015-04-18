@@ -1,7 +1,7 @@
 $nav-background: #121212;
 $nav-color: #fff;
 
-.navigation {
+#navigation header{
   @include outer-container;
   @include display(flex);
   justify-content: space-between;

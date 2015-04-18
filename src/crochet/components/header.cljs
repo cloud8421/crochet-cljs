@@ -2,7 +2,7 @@
   (:require [reagent.core :as reagent]))
 
 (defn header-component []
-  [:header.navigation {:role "banner"}
+  [:header {:role "banner"}
    [:h1 "Crochet"]
    [:nav.main-nav
     [:ul

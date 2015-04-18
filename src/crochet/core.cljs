@@ -9,19 +9,22 @@
 
 (enable-console-print!)
 
-(defn get-container []
-  (. js/document (getElementById "app")))
+(defn get-main-container []
+  (. js/document (getElementById "main")))
+
+(defn get-nav-container []
+  (. js/document (getElementById "navigation")))
 
 (defroute "/" []
   (reagent/render-component [projects-component]
-                            (get-container)))
+                            (get-main-container)))
 
 (defroute "/new-project" []
   (println "new project"))
 
 (init-routing!)
 
-;; (reagent/render-component [header-component]
-;;                           (get-container))
+(reagent/render-component [header-component]
+                          (get-nav-container))
 
 (fetch-projects 12345)
