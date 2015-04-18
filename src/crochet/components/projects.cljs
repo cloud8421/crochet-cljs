@@ -2,6 +2,9 @@
   (:require [reagent.core :as reagent]
             [crochet.app-state :refer [state]]))
 
+(defn add-new-project-component []
+  [:h2 "Add new project here"])
+
 (defn project-component [project]
   [:li (:name project)])
 
