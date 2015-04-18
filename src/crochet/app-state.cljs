@@ -5,7 +5,7 @@
   (:require-macros [cljs.core.async.macros :refer [go-loop]]))
 
 (def state (atom {:user {}
-                 :projects {}}))
+                 :projects []}))
 
 (def projects-chan (chan))
 (sub main-publication :projects projects-chan)

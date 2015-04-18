@@ -18,5 +18,7 @@
 
 (defn fetch-projects [user-id]
   (GET (str base-url user-id "/projects")
-       {:handler #(handle :projects %)
+       {:keywords? true
+        :response-format :json
+        :handler #(handle :projects %)
         :error-handler error-handler}))
