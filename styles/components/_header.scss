@@ -1,0 +1,35 @@
+$nav-background: #121212;
+$nav-color: #fff;
+
+.navigation {
+  @include outer-container;
+  @include display(flex);
+  justify-content: space-between;
+  background-color: $nav-background;
+  padding: 1em;
+  margin-bottom: 1em;
+
+  h1 {
+    margin: 0;
+    color: $nav-color;
+    flex-grow: 1;
+  }
+
+  nav {
+    flex-grow: 5;
+    line-height: 1.2em;
+    padding: 0.1em;
+
+    li {
+      display: inline-block;
+      margin-right: 1em;
+
+      a {
+        color: darken($nav-color, 10%);
+        &:hover {
+          color: darken($nav-color, 20%);
+        }
+      }
+    }
+  }
+}
