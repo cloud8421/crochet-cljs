@@ -1,7 +1,7 @@
 (ns crochet.components.editor
   (:require [reagent.core :as reagent]
             [cljs.core.async :refer [put!]]
-            [crochet.app-state :refer [state]]
+            [crochet.app-state :refer [state generate-random-color]]
             [crochet.dispatcher :refer [inbound-chan]]))
 
 (defn- update-state [entity attribute value]
@@ -15,6 +15,12 @@
 
 (defn- update-project [attribute value]
   (update-state :project attribute value))
+
+(defn- add-new-color []
+  (let [color (generate-random-color)]
+    (put! inbound-chan {:type :colors
+                        :data color})
+    color))
 
 (defn- name-control [project]
   [:div.name-control
@@ -46,12 +52,26 @@
              :value (:number-of-layers layout)}]]
    [:button {:id "generate"} "Generate"]])
 
+(defn- color-preview [color]
+  [:span.color-preview {:style {:background-color color}}])
+
+(defn- color-controls [colors]
+  [:section.colors-container
+   [:ul.colors
+    (for [color colors]
+      ^{:key color} [:li [color-preview color]])
+    [:li.add-new
+     [:button {:on-click add-new-color} "Add a new color"]]]])
+
 (defn editor-component []
   (let [project (:project @state)
-        layout (:layout @state)]
+        layout (:layout @state)
+        colors (:colors layout)]
     [:section.new-project
      [:section.workspace
       [:section.editor
        [name-control project]
        [:h2 "Dimensions"]
-       [layout-controls layout]]]]))
+       [layout-controls layout]
+       [:h2 "Colors"]
+       [color-controls colors]]]]))

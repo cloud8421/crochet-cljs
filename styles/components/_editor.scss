@@ -30,3 +30,48 @@
 #generate {
   @include span-columns(3);
 }
+
+.colors-container {
+  @include span-columns(12);
+  @include clearfix();
+  margin-bottom: 1em;
+}
+
+.color-preview {
+  outline: 1px solid black;
+  width: 2.5em;
+  height: 2.5em;
+  display: block;
+}
+
+.colors li {
+  list-style-type: none;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+
+  &.add-new {
+    float: right;
+  }
+
+  .color-dialog {
+    position: absolute;
+    padding: 0.5em;
+    top: 1em;
+    left: 1em;
+    z-index: 20;
+    background-color: darken(white, 10%);
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #ccc;
+
+    nav {
+      text-align: right;
+      margin-top: 0.5em;
+
+      button {
+        margin-left: 1em;
+      }
+    }
+  }
+}
