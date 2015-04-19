@@ -3,5 +3,23 @@
 @import './neat/neat';
 
 @import './components/header';
+@import './components/editor';
 
-h1 { color: red };
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #ddd;
+}
+
+#main {
+  @include outer-container;
+  padding: 0.5em;
+}
+
+.workspace {
+  @include span-columns(8);
+}
