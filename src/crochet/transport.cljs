@@ -12,10 +12,6 @@
 (defn- error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
 
-(def default-opts
-  {:handler handler
-   :error-handler error-handler})
-
 (defn fetch-projects [user-id]
   (GET (str base-url user-id "/projects")
        {:keywords? true
