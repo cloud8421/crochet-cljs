@@ -21,6 +21,20 @@
 (def projects-chan (chan))
 (sub main-publication :projects projects-chan)
 
+(def project-chan (chan))
+(sub main-publication :project project-chan)
+
+(def layout-chan (chan))
+(sub main-publication :layout layout-chan)
+
 (go-loop []
   (swap! state assoc :projects (:data (<! projects-chan)))
+  (recur))
+
+(go-loop []
+  (swap! state assoc :project (:data (<! project-chan)))
+  (recur))
+
+(go-loop []
+  (swap! state assoc :layout (:data (<! layout-chan)))
   (recur))

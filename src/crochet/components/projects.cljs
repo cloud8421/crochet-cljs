@@ -1,16 +1,20 @@
 (ns crochet.components.projects
   (:require [reagent.core :as reagent]
-            [crochet.app-state :refer [state]]))
+            [cljs.core.async :refer [put!]]
+            [crochet.app-state :refer [state]]
+            [crochet.dispatcher :refer [inbound-chan]]))
 
-(defn- update-layout [key value]
-  (let [layout (:layout @state)
-        updated-layout (assoc layout key value)]
-    (swap! state assoc :layout updated-layout)))
+(defn- update-state [entity attribute value]
+  (let [current (entity @state)
+        updated (assoc current attribute value)]
+    (put! inbound-chan {:type entity
+                        :data updated})))
 
-(defn- update-project [key value]
-  (let [project (:project @state)
-        updated-project (assoc project key value)]
-    (swap! state assoc :project updated-project)))
+(defn- update-layout [attribute value]
+  (update-state :layout attribute value))
+
+(defn- update-project [attribute value]
+  (update-state :project attribute value))
 
 (defn- name-control [project]
   [:div.name-control
