@@ -11,7 +11,7 @@ styles:
 	sassc styles/style.scss out/styles/style.css
 
 server:
-	python -m SimpleHTTPServer
+	python -m SimpleHTTPServer > /dev/null 2>&1
 
 watch:
 	./scripts/watch
