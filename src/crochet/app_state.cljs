@@ -20,6 +20,9 @@
                  :project (map->Project project-defaults)
                  :layout (map->Layout layout-defaults)}))
 
+(defn- generate-layout []
+  
+
 (def projects-chan (chan))
 (sub main-publication :projects projects-chan)
 
