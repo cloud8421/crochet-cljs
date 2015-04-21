@@ -4,7 +4,7 @@
   (str "#" (.toString (rand-int 16rFFFFFF) 16)))
 
 (def layout-defaults {:squares [] :width 4 :height 4
-                      :number-of-layers 4 :colors [(generate-random-color)]})
+                      :number-of-layers 4 :colors #{(generate-random-color)}})
 (defrecord Layout [squares width height
                    number-of-layers colors])
 
