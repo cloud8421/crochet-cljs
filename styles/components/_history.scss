@@ -1,0 +1,67 @@
+@import "../_variables";
+@import '../mixins/badge';
+
+.history {
+  @include span-columns(4);
+  @include omega();
+
+  header {
+    h2 {
+      margin-bottom: 0;
+    }
+
+    .count {
+      float: right;
+      @include badge($success-color);
+    }
+  }
+
+  .pagination {
+    text-align: center;
+    margin: 0.5em 0;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #ddd;
+
+    li {
+      display: inline-block;
+    }
+    a {
+      display: block;
+      padding: 0 0.6em;
+      cursor: pointer;
+      &.active {
+        background-color: $notice-color;
+      }
+    }
+  }
+
+  .version {
+    @include clearfix();
+    border-bottom: 1px solid #ddd;
+    padding: 0.5em 0;
+    cursor: pointer;
+    &:hover {
+      background-color: $controls-hover;
+    }
+    &.selected {
+      background-color: $controls-selected;
+    }
+
+    .meta {
+      @include clearfix();
+      @include display(flex);
+      align-items: flex-start;
+    }
+  }
+
+  .size {
+    @include badge($alert-color);
+    margin-right: 0.5em;
+  }
+
+  .color-preview {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+  }
+}
