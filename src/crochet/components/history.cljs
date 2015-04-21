@@ -13,8 +13,9 @@
   [:li.version {:on-click #(restore revision)}
    [:section.meta
     [:span.size (str (:width revision) "x" (:height revision))]
-    (for [color (:colors revision)]
-      [color-preview color])]])
+    [:ul.colors
+     (for [color (:colors revision)]
+       ^{:key color} [:li [color-preview color]])]]])
 
 (defn history-container [history]
   (let [revisions (:revisions history)]
