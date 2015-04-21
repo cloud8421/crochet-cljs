@@ -5,7 +5,8 @@
             [crochet.transport :refer [fetch-projects]]
             [crochet.routing :refer [init-routing!]]
             [crochet.components.header :refer [header-component]]
-            [crochet.components.projects :refer [projects-component add-new-project-component]]))
+            [crochet.components.projects :refer [projects-component]]
+            [crochet.components.editor :refer [editor-component]]))
 
 (enable-console-print!)
 
@@ -20,7 +21,7 @@
                             (get-main-container)))
 
 (defroute "/new-project" []
-  (reagent/render-component [add-new-project-component]
+  (reagent/render-component [editor-component]
                             (get-main-container)))
 
 (init-routing!)

@@ -1,0 +1,8 @@
+$medium-gray: #999 !default;
+$alert-color: #fff6bf !default;
+$error-color: #fbe3e4 !default;
+$notice-color: #e5edf8 !default;
+$success-color: #e6efc2 !default;
+
+$controls-hover: lighten($medium-gray, 35%);
+$controls-selected: lighten($success-color, 10%);
