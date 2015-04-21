@@ -5,8 +5,12 @@
             [crochet.dispatcher :refer [inbound-chan]]
             [crochet.components.color-preview :refer [color-preview]]))
 
+(defn- restore [revision]
+  (put! inbound-chan {:type :restore
+                      :data revision}))
+
 (defn- history-item [revision]
-  [:li.version
+  [:li.version {:on-click #(restore revision)}
    [:section.meta
     [:span.size (str (:width revision) "x" (:height revision))]
     (for [color (:colors revision)]

@@ -11,7 +11,7 @@
 (defrecord Project [name layouts])
 
 (def max-history 50)
-(def history (atom {:revisions []}))
+(def history (atom {:revisions '()}))
 
 (def state (atom {:user {}
                  :projects []
@@ -41,6 +41,9 @@
 (def generate-chan (chan))
 (sub main-publication :generate-squares-combination generate-chan)
 
+(def restore-chan (chan))
+(sub main-publication :restore restore-chan)
+
 (go-loop []
          (swap! state assoc :projects (:data (<! projects-chan)))
          (recur))
@@ -63,4 +66,8 @@
 (go-loop []
          ((fn [_]
             (generate-square-combination!)) (<! generate-chan))
+         (recur))
+
+(go-loop []
+         (swap! state assoc :layout (:data (<! restore-chan)))
          (recur))
