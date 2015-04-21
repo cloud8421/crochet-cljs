@@ -20,6 +20,17 @@
                  :project (map->Project project-defaults)
                  :layout (map->Layout layout-defaults)}))
 
+(defn- randomize-colors [colors amount]
+  (repeatedly amount #(shuffle colors)))
+
+(defn- create-random-combination [layout]
+  (let [comb-length (* (:width layout) (:height layout))]
+    (randomize-colors (:colors layout) comb-length)))
+
+(defn- generate-square-combination []
+  (let [permutation (create-random-combination (:layout state))]
+    (swap! state update-in [:layout :squares] #(conj % permutation))))
+
 (def projects-chan (chan))
 (sub main-publication :projects projects-chan)
 
