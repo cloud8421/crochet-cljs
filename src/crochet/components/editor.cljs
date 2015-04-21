@@ -2,9 +2,11 @@
   (:require [reagent.core :as reagent]
             [cljs.core.async :refer [put!]]
             [crochet.layout :refer [generate-random-color]]
-            [crochet.app-state :refer [state]]
+            [crochet.app-state :refer [state history]]
             [crochet.dispatcher :refer [inbound-chan]]
-            [crochet.components.grid :refer [grid-container]]))
+            [crochet.components.color-preview :refer [color-preview]]
+            [crochet.components.grid :refer [grid-container]]
+            [crochet.components.history :refer [history-container]]))
 
 (defn- update-state [entity attribute value]
   (let [current (entity @state)
@@ -58,9 +60,6 @@
              :value (:number-of-layers layout)}]]
    [:button {:id "generate" :on-click #(generate-squares-combination)} "Generate"]])
 
-(defn- color-preview [color]
-  [:span.color-preview {:style {:background-color color}}])
-
 (defn- color-controls [colors]
   [:section.colors-container
    [:ul.colors
@@ -81,4 +80,5 @@
        [layout-controls layout]
        [:h2 "Colors"]
        [color-controls colors]]
-      [grid-container layout]]]))
+      [grid-container layout]]
+     [history-container @history]]))
