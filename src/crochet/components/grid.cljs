@@ -1,7 +1,7 @@
 (ns crochet.components.grid
   (:require [reagent.core :as reagent]
             [cljs.core.async :refer [put!]]
-            [crochet.app-state :refer [state generate-random-color]]
+            [crochet.app-state :refer [state]]
             [crochet.dispatcher :refer [inbound-chan]]))
 
 (defn- add-index [colors]

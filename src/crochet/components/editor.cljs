@@ -1,7 +1,8 @@
 (ns crochet.components.editor
   (:require [reagent.core :as reagent]
             [cljs.core.async :refer [put!]]
-            [crochet.app-state :refer [state generate-random-color]]
+            [crochet.layout :refer [generate-random-color]]
+            [crochet.app-state :refer [state]]
             [crochet.dispatcher :refer [inbound-chan]]
             [crochet.components.grid :refer [grid-container]]))
 
