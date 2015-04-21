@@ -10,10 +10,17 @@
 (def project-defaults {:name "My new project" :layouts []})
 (defrecord Project [name layouts])
 
+(def history (atom {:revisions []}))
+
 (def state (atom {:user {}
                  :projects []
                  :project (map->Project project-defaults)
                  :layout (map->Layout layout-defaults)}))
+
+(defn update-history [_ _ _ new-state]
+  (swap! history update-in [:revisions] #(conj % new-state)))
+
+(add-watch state :update-history update-history)
 
 (defn- generate-square-combination! []
   (let [layout (:layout @state)]
