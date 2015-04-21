@@ -28,5 +28,3 @@
 
 (reagent/render-component [header-component]
                           (get-nav-container))
-
-(fetch-projects 12345)
