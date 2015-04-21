@@ -27,9 +27,13 @@
   (let [comb-length (* (:width layout) (:height layout))]
     (randomize-colors (:colors layout) comb-length)))
 
+(defn- has-enough-colors [layout]
+  (>= (count (:colors layout)) (:number-of-layers layout)))
+
 (defn- generate-square-combination []
-  (let [permutation (create-random-combination (:layout state))]
-    (swap! state update-in [:layout :squares] #(conj % permutation))))
+  (let [layout (:layout @state)]
+    (when (has-enough-colors layout)
+      (swap! state update-in [:layout :squares] #(conj % (create-random-combination layout))))))
 
 (def projects-chan (chan))
 (sub main-publication :projects projects-chan)
@@ -42,6 +46,9 @@
 
 (def colors-chan (chan))
 (sub main-publication :colors colors-chan)
+
+(def generate-chan (chan))
+(sub main-publication :generate-squares-combination generate-chan)
 
 (go-loop []
          (swap! state assoc :projects (:data (<! projects-chan)))
@@ -59,3 +66,7 @@
          (let [color (:data (<! colors-chan))]
            (swap! state update-in [:layout :colors] #(conj % color))
            (recur)))
+
+(go-loop []
+         ((fn [_] (generate-square-combination)) (<! generate-chan))
+         (recur))

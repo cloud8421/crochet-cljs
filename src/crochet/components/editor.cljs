@@ -20,7 +20,11 @@
   (let [color (generate-random-color)]
     (put! inbound-chan {:type :colors
                         :data color})
-    color))
+    :ok))
+
+(defn- generate-squares-combination []
+  (put! inbound-chan {:type :generate-squares-combination})
+  :ok)
 
 (defn- name-control [project]
   [:div.name-control
@@ -50,7 +54,7 @@
              :id "number-of-layers"
              :on-change #(update-layout :number-of-layers (-> % .-target .-value))
              :value (:number-of-layers layout)}]]
-   [:button {:id "generate"} "Generate"]])
+   [:button {:id "generate" :on-click #(generate-squares-combination)} "Generate"]])
 
 (defn- color-preview [color]
   [:span.color-preview {:style {:background-color color}}])
