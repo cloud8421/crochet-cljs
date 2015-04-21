@@ -1,0 +1,33 @@
+@import '../_variables';
+
+.grid-container, .notice {
+  @include span-columns(12);
+  @include clearfix();
+}
+
+.grid {
+  @include display(flex);
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.square {
+  display: inline-block;
+  position: relative;
+}
+
+.square div {
+  @include background-image(url('/assets/images/linen.png'));
+  display: block;
+  position: absolute;
+}
+
+.notice {
+  text-align: center;
+  background-color: $notice-color;
+
+  p {
+    margin: 1em 0;
+    color: darken($notice-color, 40%);
+  }
+}

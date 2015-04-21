@@ -33,7 +33,7 @@
 (defn- generate-square-combination []
   (let [layout (:layout @state)]
     (when (has-enough-colors layout)
-      (swap! state update-in [:layout :squares] #(conj % (create-random-combination layout))))))
+      (swap! state update-in [:layout :squares] #(create-random-combination layout)))))
 
 (def projects-chan (chan))
 (sub main-publication :projects projects-chan)
@@ -60,11 +60,13 @@
 
 (go-loop []
          (swap! state assoc :layout (:data (<! layout-chan)))
+         (generate-square-combination)
          (recur))
 
 (go-loop []
          (let [color (:data (<! colors-chan))]
            (swap! state update-in [:layout :colors] #(conj % color))
+           (generate-square-combination)
            (recur)))
 
 (go-loop []

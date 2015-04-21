@@ -2,7 +2,8 @@
   (:require [reagent.core :as reagent]
             [cljs.core.async :refer [put!]]
             [crochet.app-state :refer [state generate-random-color]]
-            [crochet.dispatcher :refer [inbound-chan]]))
+            [crochet.dispatcher :refer [inbound-chan]]
+            [crochet.components.grid :refer [grid-container]]))
 
 (defn- update-state [entity attribute value]
   (let [current (entity @state)
@@ -78,4 +79,5 @@
        [:h2 "Dimensions"]
        [layout-controls layout]
        [:h2 "Colors"]
-       [color-controls colors]]]]))
+       [color-controls colors]]
+      [grid-container layout]]]))
