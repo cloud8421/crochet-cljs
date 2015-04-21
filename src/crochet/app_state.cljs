@@ -17,15 +17,11 @@
                  :project (map->Project project-defaults)
                  :layout (map->Layout layout-defaults)}))
 
-(defn update-history [_ _ _ new-state]
-  (swap! history update-in [:revisions] #(conj % new-state)))
-
-(add-watch state :update-history update-history)
-
 (defn- generate-square-combination! []
   (let [layout (:layout @state)]
     (when (has-enough-colors layout)
-      (swap! state update-in [:layout :squares] #(create-random-combination layout)))))
+      (swap! state update-in [:layout :squares] #(create-random-combination layout))
+      (swap! history update-in [:revisions] #(conj % (:layout @state))))))
 
 (def projects-chan (chan))
 (sub main-publication :projects projects-chan)
@@ -62,5 +58,6 @@
            (recur)))
 
 (go-loop []
-         ((fn [_] (generate-square-combination!)) (<! generate-chan))
+         ((fn [_]
+            (generate-square-combination!)) (<! generate-chan))
          (recur))
