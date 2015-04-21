@@ -20,12 +20,12 @@
                  :project (map->Project project-defaults)
                  :layout (map->Layout layout-defaults)}))
 
-(defn- randomize-colors [colors amount]
-  (repeatedly amount #(shuffle colors)))
+(defn- randomize-colors [colors amount pick-count]
+  (repeatedly amount #(take pick-count (shuffle colors))))
 
 (defn- create-random-combination [layout]
   (let [comb-length (* (:width layout) (:height layout))]
-    (randomize-colors (:colors layout) comb-length)))
+    (randomize-colors (:colors layout) comb-length (:number-of-layers layout))))
 
 (defn- has-enough-colors [layout]
   (>= (count (:colors layout)) (:number-of-layers layout)))
