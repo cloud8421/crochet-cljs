@@ -1,0 +1,6 @@
+{
+  "name": "crochet-cljs",
+  "root": "release",
+  "clean_urls": true,
+  "error_page": "y"
+}

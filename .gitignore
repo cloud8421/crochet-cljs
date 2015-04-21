@@ -11,3 +11,4 @@ pom.xml
 .lein-failures
 .repl*
 /node_modules
+/.divshot-cache
