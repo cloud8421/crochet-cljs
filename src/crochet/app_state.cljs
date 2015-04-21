@@ -10,6 +10,7 @@
 (def project-defaults {:name "My new project" :layouts []})
 (defrecord Project [name layouts])
 
+(def max-history 50)
 (def history (atom {:revisions []}))
 
 (def state (atom {:user {}
@@ -21,7 +22,9 @@
   (let [layout (:layout @state)]
     (when (has-enough-colors layout)
       (swap! state update-in [:layout :squares] #(create-random-combination layout))
-      (swap! history update-in [:revisions] #(conj % (:layout @state))))))
+      (swap! history update-in [:revisions] (fn [current]
+                                              (->> (conj current (:layout @state))
+                                                   (take max-history)))))))
 
 (def projects-chan (chan))
 (sub main-publication :projects projects-chan)
