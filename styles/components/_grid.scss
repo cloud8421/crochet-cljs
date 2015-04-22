@@ -1,6 +1,6 @@
 @import '../_variables';
 
-.grid-container, .notice {
+.grid-container {
   @include span-columns(12);
   @include clearfix();
 }
@@ -20,14 +20,4 @@
   @include background-image(url('/assets/images/linen.png'));
   display: block;
   position: absolute;
-}
-
-.notice {
-  text-align: center;
-  background-color: $notice-color;
-
-  p {
-    margin: 1em 0;
-    color: darken($notice-color, 40%);
-  }
 }

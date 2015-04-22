@@ -25,3 +25,16 @@ h2 {
 .workspace {
   @include span-columns(8);
 }
+
+.notice {
+  @include span-columns(12);
+  @include clearfix();
+  margin-top: 0.5em;
+  text-align: center;
+  background-color: $notice-color;
+
+  p {
+    margin: 1em 0;
+    color: darken($notice-color, 40%);
+  }
+}

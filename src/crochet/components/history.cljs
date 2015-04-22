@@ -27,4 +27,5 @@
        [:ul
          (for [revision revisions]
            [history-item revision])]
-       [:p "None yet!"])]))
+       [:div.notice
+        [:p "None yet!"]])]))
