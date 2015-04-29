@@ -3,7 +3,7 @@
             [reagent.core :refer [atom]]
             [crochet.layout :refer [Layout layout-defaults map->Layout
                                     generate-random-color has-enough-colors
-                                    create-random-combination]]
+                                    create-random-combination add-color replace-color]]
             [crochet.dispatcher :refer [main-publication]])
   (:require-macros [cljs.core.async.macros :refer [go-loop]]))
 
@@ -21,18 +21,10 @@
 (defn- generate-square-combination! []
   (let [layout (:layout @state)]
     (when (has-enough-colors layout)
-      (swap! state update-in [:layout :squares] #(create-random-combination layout))
+      (swap! state assoc :layout (create-random-combination layout))
       (swap! history update-in [:revisions] (fn [current]
                                               (->> (conj current (:layout @state))
                                                    (take max-history)))))))
-
-(defn- update-color [collection old-color new-color]
-  (let [old-color-index (index-of collection old-color)]
-    (update-in collection [old-color-index] (fn [_] new-color))))
-
-(defn- replace-color-in-squares [squares old-color new-color]
-  (map (fn [current] (update-color current old-color new-color))
-       squares))
 
 (def projects-chan (chan))
 (sub main-publication :projects projects-chan)
@@ -70,20 +62,13 @@
 
 (go-loop []
          (let [color (:data (<! add-color-chan))]
-           (swap! state update-in [:layout :colors] #(conj % color))
+           (swap! state update-in [:layout] #(add-color % color))
            (generate-square-combination!)
            (recur)))
 
-(defn- index-of [coll v]
-  (let [i (count (take-while #(not= v %) coll))]
-    (when (or (< i (count coll))
-            (= v (last coll)))
-      i)))
-
 (go-loop []
          (let [colors (:data (<! update-color-chan))]
-           (swap! state update-in [:layout :colors] (fn [current] (update-color current (:old colors) (:new colors))))
-           (swap! state update-in [:layout :squares] (fn [current] (replace-color-in-squares current (:old colors) (:new colors))))
+           (swap! state update-in [:layout] #(replace-color % (:old colors) (:new colors)))
            (recur)))
 
 (go-loop []
