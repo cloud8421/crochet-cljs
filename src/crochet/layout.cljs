@@ -9,7 +9,7 @@
                    number-of-layers colors])
 
 (defn- randomize-colors [colors amount pick-count]
-  (repeatedly amount #(take pick-count (shuffle colors))))
+  (vec (repeatedly amount #(take pick-count (shuffle colors)))))
 
 (defn- create-random-combination [layout]
   (let [comb-length (* (:width layout) (:height layout))]

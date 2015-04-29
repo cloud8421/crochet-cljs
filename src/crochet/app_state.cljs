@@ -31,7 +31,7 @@
     (update-in collection [old-color-index] (fn [_] new-color))))
 
 (defn- replace-color-in-squares [squares old-color new-color]
-  (map (fn [current] (update-color (vec current) old-color new-color))
+  (map (fn [current] (update-color current old-color new-color))
        squares))
 
 (def projects-chan (chan))

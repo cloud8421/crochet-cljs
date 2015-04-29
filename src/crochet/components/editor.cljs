@@ -22,9 +22,14 @@
 
 (defn- add-new-color []
   (let [color (generate-random-color)]
-    (put! inbound-chan {:type :colors
+    (put! inbound-chan {:type :add-color
                         :data color})
     :ok))
+
+(defn- update-color [old-color new-color]
+  (put! inbound-chan {:type :update-color
+                      :data {:old old-color
+                             :new new-color}}))
 
 (defn- generate-squares-combination []
   (put! inbound-chan {:type :generate-squares-combination})
@@ -60,11 +65,18 @@
              :value (:number-of-layers layout)}]]
    [:button {:id "generate" :on-click #(generate-squares-combination)} "Generate"]])
 
+(defn- color-picker [color]
+  [:div
+   [color-preview color]
+   [:input {:type "color"
+            :value color
+            :on-change #(update-color color (-> % .-target .-value))}]])
+
 (defn- color-controls [colors]
   [:section.colors-container
    [:ul.colors
     (for [color colors]
-      ^{:key color} [:li [color-preview color]])
+      ^{:key color} [:li [color-picker color]])
     [:li.add-new
      [:button {:on-click add-new-color} "Add a new color"]]]])
 
