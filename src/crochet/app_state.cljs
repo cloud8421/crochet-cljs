@@ -26,6 +26,14 @@
                                               (->> (conj current (:layout @state))
                                                    (take max-history)))))))
 
+(defn- update-color [collection old-color new-color]
+  (let [old-color-index (index-of collection old-color)]
+    (update-in collection [old-color-index] (fn [_] new-color))))
+
+(defn- replace-color-in-squares [squares old-color new-color]
+  (map (fn [current] (update-color (vec current) old-color new-color))
+       squares))
+
 (def projects-chan (chan))
 (sub main-publication :projects projects-chan)
 
@@ -35,8 +43,11 @@
 (def layout-chan (chan))
 (sub main-publication :layout layout-chan)
 
-(def colors-chan (chan))
-(sub main-publication :colors colors-chan)
+(def add-color-chan (chan))
+(sub main-publication :add-color add-color-chan)
+
+(def update-color-chan (chan))
+(sub main-publication :update-color update-color-chan)
 
 (def generate-chan (chan))
 (sub main-publication :generate-squares-combination generate-chan)
@@ -58,9 +69,21 @@
          (recur))
 
 (go-loop []
-         (let [color (:data (<! colors-chan))]
+         (let [color (:data (<! add-color-chan))]
            (swap! state update-in [:layout :colors] #(conj % color))
            (generate-square-combination!)
+           (recur)))
+
+(defn- index-of [coll v]
+  (let [i (count (take-while #(not= v %) coll))]
+    (when (or (< i (count coll))
+            (= v (last coll)))
+      i)))
+
+(go-loop []
+         (let [colors (:data (<! update-color-chan))]
+           (swap! state update-in [:layout :colors] (fn [current] (update-color current (:old colors) (:new colors))))
+           (swap! state update-in [:layout :squares] (fn [current] (replace-color-in-squares current (:old colors) (:new colors))))
            (recur)))
 
 (go-loop []
