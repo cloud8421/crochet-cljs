@@ -1,18 +1,12 @@
-.PHONY: all server watch watch-scss build
+.PHONY: all watch-scss build
 FSWATCH       := fswatch
 SASSC         := sassc
 STYLES        := styles/
 MAIN_STYLE    := $(STYLES)style.scss
-OUT_STYLE     := out/styles/style.css
-RELEASE_STYLE := release/styles/style-min.css
+OUT_STYLE     := resources/public/css/style.css
+RELEASE_STYLE := resources/public/css/style-min.css
 
-all: server watch watch-scss
-
-server:
-	python -m SimpleHTTPServer > /dev/null 2>&1
-
-watch:
-	./scripts/watch
+all: watch-scss
 
 watch-scss:
 	$(FSWATCH) --recursive --one-per-batch $(STYLES) | xargs -n1 -I{} $(SASSC) $(MAIN_STYLE) $(OUT_STYLE)

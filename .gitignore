@@ -2,9 +2,9 @@ pom.xml
 *jar
 /lib/
 /classes/
-/out/
 /release/
 /target/
+/resources/public
 .lein-deps-sum
 .lein-repl-history
 .lein-plugins/
@@ -12,3 +12,4 @@ pom.xml
 .repl*
 /node_modules
 /.divshot-cache
+*.log
