@@ -12,6 +12,6 @@ watch-scss:
 	$(FSWATCH) --recursive --one-per-batch $(STYLES) | xargs -n1 -I{} $(SASSC) $(MAIN_STYLE) $(OUT_STYLE)
 
 build:
-	./scripts/release
-	mkdir -p release/styles && $(SASSC) -t compressed $(MAIN_STYLE) $(RELEASE_STYLE)
+	lein cljsbuild once min
+	$(SASSC) -t compressed $(MAIN_STYLE) $(RELEASE_STYLE)
 	cp index_release.html release/index.html
