@@ -28,7 +28,7 @@
                          :cache-analysis true }}
              {:id "min"
               :source-paths ["src"]
-              :compiler {:output-to "resources/public/js/compiled/crochet-min.js"
+              :compiler {:output-to "dist/crochet-min.js"
                          :main crochet.core
                          :optimizations :advanced
                          :pretty-print false}}]}
