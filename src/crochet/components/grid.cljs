@@ -33,15 +33,20 @@
                :height (str comb-length "em")}]
     [:div.square {:style style}
      (for [layer-map (to-layer comb)]
-       [layer layer-map])]))
+       ^{:key (:index layer-map)} [layer layer-map])]))
+
+(defn- hash-combinations [combs]
+  (map-indexed (fn [idx el] [(apply str idx el) el]) combs))
 
 (defn- grid [layout]
   (let [total-width (* (:width layout) (:number-of-layers layout))
-        style {:width (str total-width "em")}]
+        style {:width (str total-width "em")}
+        squares (:squares layout)
+        squares-with-hash (hash-combinations squares)]
     [:section.grid-container
      [:div.grid {:style style}
-      (for [comb (:squares layout)]
-        [square comb])]]))
+      (for [[hashed comb] squares-with-hash]
+        ^{:key hashed} [square comb])]]))
 
 (defn grid-container [layout]
   (if (> (:number-of-layers layout) (count (:colors layout)))
