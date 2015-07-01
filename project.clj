@@ -1,17 +1,17 @@
 (defproject crochet "0.1.0-SNAPSHOT"
   :description "FIXME: write this!"
   :url "http://example.com/FIXME"
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-3208"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "0.0-3308"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [reagent "0.5.0"]
                  [secretary "1.2.3"]
-                 [cljs-ajax "0.3.11"]]
+                 [cljs-ajax "0.3.13"]]
   :jvm-opts ^:replace ["-Xmx1g" "-server"]
   :node-dependencies [[source-map-support "0.2.8"]]
-  :plugins [[lein-npm "0.4.0"]
-            [lein-cljsbuild "1.0.5"]
-            [lein-figwheel "0.2.9"]]
+  :plugins [[lein-npm "0.5.0"]
+            [lein-cljsbuild "1.0.6"]
+            [lein-figwheel "0.3.5"]]
   :source-paths ["src"]
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
   :cljsbuild {
